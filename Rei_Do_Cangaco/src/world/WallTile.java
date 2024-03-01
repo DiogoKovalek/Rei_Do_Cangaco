@@ -4,16 +4,21 @@
  */
 package world;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import main.Game;
 
 /**
  *
  * @author diogo
  */
-public class WallTile extends Tile{
-    
+public class WallTile extends Tile {
+
+    public static BufferedImage[] Tile_Wall = {Game.spritesheet.getSprite(16 * 11, 16 * 0, 16, 16),
+        Game.spritesheet.getSprite(16 * 11, 16 * 1, 16, 16),
+        Game.spritesheet.getSprite(16 * 11, 16 * 2, 16, 16)};
+
     public WallTile(int x, int y, BufferedImage sprite, boolean isCollision) {
         super(x, y, sprite, isCollision);
     }
-    
 }

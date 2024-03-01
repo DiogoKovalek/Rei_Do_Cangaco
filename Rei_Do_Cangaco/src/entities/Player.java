@@ -3,6 +3,7 @@ package entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import main.Controller;
 import main.Game;
 import main.Sound;
 import world.World;
@@ -467,6 +468,7 @@ public class Player extends Entity {
                 Game.bullets.clear();
                 Game.control.setEnemysToGenerate(0);
                 Game.control.setTimer(0);
+                Game.control.addTimeGame(0.15); //AddTime
                 Sound.mOverWorld.pausedLoop();
                 Sound.mHurt.play();
                 frames = 0;
@@ -525,8 +527,8 @@ public class Player extends Entity {
         frames = 0;
         Game.ui.intitGame = false;
         died = false;
-        this.x = 16 * 8;
-        this.y = 16 * 8;
+        this.x = (16 * 7)+8;
+        this.y = (16 * 7)+8;
         dir = initDir;
     }
 

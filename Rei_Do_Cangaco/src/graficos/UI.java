@@ -11,6 +11,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.HexFormat;
+import main.Controller;
 import main.Game;
 import static main.Game.player;
 import world.World;
@@ -30,6 +31,7 @@ public class UI {
     private BufferedImage tutorial = Game.spritesheet.getSprite(16*6, 16*5, 16*5, 16*3);
     public boolean intitGame = false;
     
+    private double porcentTime;
     
     public void render(Graphics g){
         g.setColor(Color.BLACK);
@@ -45,8 +47,14 @@ public class UI {
         }
         g.drawString("X" + player.coins, 273, 56);
         g.drawImage(Clock, 0, 0, null);
-        g.setColor(new Color(0XFFbee52f));
-        g.fillRect(16, 5, World.WIDTH*World.TILE_SIZE - 25, 6);
+        
+        if(Game.control.timeGame <= Game.control.maxTimeGame*0.8){
+            g.setColor(new Color(0XFFbee52f));
+        }else{
+            g.setColor(new Color(0xFFa40000));
+        }
+        porcentTime = ((Game.control.maxTimeGame/60) - (Game.control.timeGame/60))/(Game.control.maxTimeGame/60);
+        g.fillRect(16, 5, (int) ((World.WIDTH*World.TILE_SIZE - 25)*porcentTime), 6);
         
         if(!intitGame){
             g.drawImage(tutorial, 90, 180, null);

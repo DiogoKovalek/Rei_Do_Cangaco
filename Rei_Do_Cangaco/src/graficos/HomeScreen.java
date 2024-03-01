@@ -49,11 +49,10 @@ public class HomeScreen {
             }
             if(Game.player.space){
                 if(optionChoice == 1){ // One Player
-                    Game.GameState = Game.GameStatePossible[1];
+                    Game.GameState = Game.GameStatePossible[4];
                 }else if(optionChoice == 2){ //Two Player
-                    Game.GameState = Game.GameStatePossible[1];
+                    Game.GameState = Game.GameStatePossible[4];
                 }
-                Sound.mOverWorld.loop();
                 Game.player.space = false;
             }
         }else{

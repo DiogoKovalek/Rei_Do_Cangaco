@@ -22,6 +22,7 @@ import entities.Player;
 import entities.WindowsPowerUp;
 import graficos.GameOverScreen;
 import graficos.HomeScreen;
+import graficos.NextLevelScreen;
 import graficos.SpriteSheet;
 import graficos.UI;
 import java.util.ResourceBundle;
@@ -37,7 +38,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public static final int WIDTH = 256 + WidthDeslocation;
     public static final int HEIGHT = 256;
     public static final int SCALE = 4;
-    public static final String[] GameStatePossible = {"HomeScreen", "Game", "GameOver", "Pause"};
+    public static final String[] GameStatePossible = {"HomeScreen", "Game", "GameOver", "Pause","NextLevel"};
     public static String GameState = GameStatePossible[0];
 
     private BufferedImage image;
@@ -51,6 +52,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public static Controller control;
     public static HomeScreen home;
     public static GameOverScreen gameOver;
+    public static NextLevelScreen nextLevel;
 
     public static UI ui;
     public static WindowsPowerUp windowsPowerUp;
@@ -72,11 +74,12 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         bullets = new ArrayList<Bullet>();
         enemys = new ArrayList<Entity>();
         player = new Player(0, 0, 16, 16, 1.5, null);
-        world = new World("/res/map_W01_L01.png");
+        world = new World("01","01");
         ui = new UI();
         windowsPowerUp = new WindowsPowerUp();
         home = new HomeScreen();
         gameOver = new GameOverScreen();
+        nextLevel = new NextLevelScreen();
 
         entities.add(player);
         control = new Controller();
@@ -136,12 +139,15 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
             }
 
             control.EnemyGenerator();
+            control.TimeGame();
 
         } else if (GameState == GameStatePossible[2]) { // Game Over Screen
             gameOver.tick();
 
         } else if (GameState == GameStatePossible[3]) { // Pause
 
+        } else if (GameState == GameStatePossible[4]) { // Next Level
+            nextLevel.tick();
         }
 
     }
@@ -189,6 +195,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         } else if (GameState == GameStatePossible[3]) { // Pause
 
 
+        } else if (GameState == GameStatePossible[4]) { // Next Level
+            nextLevel.render(g);
         }
 
         g.dispose();

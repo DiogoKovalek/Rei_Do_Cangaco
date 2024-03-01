@@ -14,15 +14,6 @@ import main.Game;
  */
 public class Tile {
     
-    public static BufferedImage Tile_Floor = Game.spritesheet.getSprite(16*7, 16*0, 16, 16);
-    public static BufferedImage[] Tile_Tree = {Game.spritesheet.getSprite(16*9, 16*0, 16, 16),
-    Game.spritesheet.getSprite(16*10, 16*0, 16, 16)};
-    public static BufferedImage Tile_Floor_Rock1 = Game.spritesheet.getSprite(16*4, 16*0, 16, 16);
-    public static BufferedImage Tile_Floor_Rock2 = Game.spritesheet.getSprite(16*5, 16*0, 16, 16);
-    public static BufferedImage Tile_Floor_Rock3 = Game.spritesheet.getSprite(16*6, 16*0, 16, 16);
-    public static BufferedImage Tile_Floor_Sand2 = Game.spritesheet.getSprite(16*8, 16*0, 16, 16);
-    public static BufferedImage Tile_Wall = Game.spritesheet.getSprite(16*11, 16*0, 16, 16);
-    
     protected BufferedImage sprite;
     protected int x,y;
     protected boolean isCollision;
@@ -36,6 +27,19 @@ public class Tile {
     
     public void tick(){
         
+    }
+    // Get World num for draw
+    public static int getWorldForDraw(){
+        switch (World.worldNum) {
+            case "01":
+                return 0;
+            case "02":
+                return 1;
+            case "03":
+                return 2;
+            default:
+                throw new AssertionError();
+        }
     }
     
     public void render(Graphics g){

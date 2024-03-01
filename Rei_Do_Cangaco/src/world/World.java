@@ -33,7 +33,13 @@ public class World {
     
     private static List<Tile> tilesAnimation;
     
-    public World(String path){
+    public static String levelNum;
+    public static String worldNum;
+    
+    public World(String world_Num, String level_Num){
+        String path = "/res/map_W"+world_Num+"_L"+level_Num+".png";
+        levelNum = level_Num;
+        worldNum = world_Num;
         try {
             BufferedImage map = ImageIO.read(getClass().getResource(path));
             int[] pixels = new int[map.getWidth()*map.getHeight()];
@@ -51,32 +57,32 @@ public class World {
                     
                     //Instanciando
                     
-                    tiles[xx + (yy * WIDTH)] = new FloorTile(xx*16, yy*16, Tile.Tile_Floor, false); //Sempre vai ter chao
+                    tiles[xx + (yy * WIDTH)] = new FloorTile(xx*16, yy*16, FloorTile.Tile_Floor_Sand1[Tile.getWorldForDraw()], false); //Sempre vai ter chao
                     
                     //Instanciar Elementos do Mapa ===================================
                     if(pixelAtual == 0xFF000000){
                         //Tree
-                        tiles[xx + (yy * WIDTH)] = new TreeTile(xx*16, yy*16, Tile.Tile_Tree[0], true);
+                        tiles[xx + (yy * WIDTH)] = new TreeTile(xx*16, yy*16, TreeTile.Tile_Tree[Tile.getWorldForDraw()][0], true);
                         tilesAnimation.add(tiles[xx + (yy*WIDTH)]);
                     }else if(pixelAtual == 0xFFFFFFFF){
                         //Floor
-                        tiles[xx + (yy * WIDTH)] = new FloorTile(xx*16, yy*16, Tile.Tile_Floor, false);
+                        tiles[xx + (yy * WIDTH)] = new FloorTile(xx*16, yy*16, FloorTile.Tile_Floor_Sand1[Tile.getWorldForDraw()], false);
                     }else if(pixelAtual == 0xFFac3232){
                         //Player
-                        Game.player.setX(xx*16);
-                        Game.player.setY(yy*16);
+                        Game.player.setX((xx*16)+8);
+                        Game.player.setY((yy*16)+8);
                     }else if(pixelAtual == 0xFF490000){
-                        tiles[xx+ (yy*WIDTH)] = new SpawTile(xx*16, yy*16, Tile.Tile_Floor_Rock1, false);
+                        tiles[xx+ (yy*WIDTH)] = new SpawTile(xx*16, yy*16, SpawTile.Tile_Floor_Rock1[Tile.getWorldForDraw()], false);
                     }else if(pixelAtual == 0xFFa93d3d){
-                        tiles[xx + (yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.Tile_Floor_Rock3, false);
+                        tiles[xx + (yy*WIDTH)] = new FloorTile(xx*16, yy*16, FloorTile.Tile_Floor_Rock3[Tile.getWorldForDraw()], false);
                     }else if(pixelAtual == 0xFFb6b6b6){
-                        tiles[xx + (yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.Tile_Floor_Sand2, false);
+                        tiles[xx + (yy*WIDTH)] = new FloorTile(xx*16, yy*16, FloorTile.Tile_Floor_Sand2[Tile.getWorldForDraw()], false);
                     }else if(pixelAtual == 0xFF001749){
                         GreenMan enemy = new GreenMan(xx*16, yy*16, 16, 16, 0.5, null);
                         Game.entities.add(enemy);
                         Game.enemys.add(enemy);
                     }else if(pixelAtual == 0xFF232323){
-                        tiles[xx + (yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.Tile_Wall, true);
+                        tiles[xx + (yy*WIDTH)] = new WallTile(xx*16, yy*16, WallTile.Tile_Wall[Tile.getWorldForDraw()], true);
                     }
                     //================================================================
                     
@@ -154,12 +160,45 @@ public class World {
         Game.control = new Controller();
         Game.ui = new UI();
         Game.windowsPowerUp = new WindowsPowerUp();
-        
         Game.player = new Player(0, 0, 16, 16, 1.5, null);
         Game.entities.add(Game.player);
         
-        Game.world = new World("/res/map_W01_L01.png");
+        Game.world = new World("01", "01");
     }
+    
+    public static void loadNextLevel() {
+        String newLevelNum = "";
+        String newWorldNum = worldNum;
+
+        switch (levelNum) {
+            case "01":
+                newLevelNum = "02";
+                break;
+            case "02":
+                newLevelNum = "03";
+                break;
+            case "03":
+                newLevelNum = "04";
+                break;
+            case "04":
+                switch (worldNum) {
+                    case "01":
+                        newWorldNum = "02";
+                        break;
+                    case "02":
+                        newWorldNum = "03";
+                        break;
+                    case "03":
+                    //Credt Screen
+                }
+                newLevelNum = "01"; // return to fist level
+                break;
+            default:
+                throw new AssertionError();
+        }
+        Game.world = new World(newWorldNum, newLevelNum);
+    }
+    
     public void tick(){
         for(int i = 0; i < tilesAnimation.size(); i++){
             tilesAnimation.get(i).tick();
