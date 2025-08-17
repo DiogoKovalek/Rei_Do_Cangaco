@@ -37,7 +37,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public static final int WidthDeslocation = 32;
     public static final int WIDTH = 256 + WidthDeslocation;
     public static final int HEIGHT = 256;
-    public static final int SCALE = 4;
+    public static final int SCALE = 3;
     public static final String[] GameStatePossible = {"HomeScreen", "Game", "GameOver", "Pause","NextLevel"};
     public static String GameState = GameStatePossible[0];
 
